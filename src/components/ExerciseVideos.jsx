@@ -3,7 +3,17 @@ import { Box, Stack, Typography } from "@mui/material";
 import Loader from "./Loader";
 
 const ExerciseVideos = ({ exerciseVideos, name }) => {
-  if (!exerciseVideos.length) return <Loader />;
+  if (!exerciseVideos || !exerciseVideos.length) {
+    return (
+      <Typography
+        sx={{ fontSize: { lg: "24px", xs: "18px" }, textAlign: "center", mt: 4 }}
+        color="error"
+      >
+        No videos available for {name}. Please try again later.
+      </Typography>
+    );
+  }
+
   return (
     <Box
       sx={{
@@ -12,9 +22,8 @@ const ExerciseVideos = ({ exerciseVideos, name }) => {
       p="20px"
     >
       <Typography
-        sx={{ fontSize: { lg: "44px", color: "#e2e4e9", xs: "25px" } }}
+        sx={{ fontSize: { lg: "44px", xs: "25px" }, color: "#e2e4e9" }}
         fontWeight={700}
-        color="#000"
         mb="33px"
       >
         Watch{" "}
@@ -30,24 +39,22 @@ const ExerciseVideos = ({ exerciseVideos, name }) => {
         flexWrap="wrap"
         alignItems="center"
       >
-        {exerciseVideos?.slice(3, 12).map((item, i) => (
-          <div className="card">
+        {exerciseVideos.slice(0, 9).map((item, i) => (
+          <div key={i} className="card">
             <a
-              key={i}
               className="exercise-video"
               href={`https://www.youtube.com/watch?v=${item.video.videoId}`}
               target="_blank"
               rel="noreferrer"
-              color="red"
             >
               <img
                 style={{ borderRadius: "15px" }}
-                src={item.video.thumbnails[0].url}
+                src={item.video.thumbnails[0]?.url}
                 alt={item.video.title}
               />
-              <Box className="exercise-video-bottom">
+              <Box className="exercise-video-bottom" mt={1}>
                 <Typography
-                  sx={{ fontSize: { lg: "23px", ml: "20px", xs: "16px" } }}
+                  sx={{ fontSize: { lg: "23px", xs: "16px" } }}
                   fontWeight={600}
                   color="#e2e4e9"
                 >
